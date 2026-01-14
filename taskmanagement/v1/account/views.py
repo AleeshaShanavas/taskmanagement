@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 
+from v1.account.constants import UserType
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -21,6 +22,10 @@ def login_view(request):
     password = request.data.get('password')
     user = authenticate(username=username, password=password)
     if user:
+        if user.role != UserType.USER:
+            return Response({
+                'error': 'You are not allowed to login via API.'},
+                status=status.HTTP_403_FORBIDDEN)
         refresh = RefreshToken.for_user(user)
         return Response({
             'refresh': str(refresh), 'access': str(refresh.access_token),
@@ -31,7 +36,7 @@ def login_view(request):
 
 def panel_login(request):
     """Render login form and authenticate admin users for admin panel access."""
-    
+
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
