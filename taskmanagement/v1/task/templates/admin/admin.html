@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Panel</title></head>
+<body>
+    <h1>{% if is_superadmin %}SuperAdmin{% else %}Admin{% endif %} Dashboard</h1>
+    <nav>
+        <a href="{% url 'admin_dashboard' %}">Dashboard</a> |
+        <a href="{% url 'assign_task' %}">Assign Task</a>
+        {% if is_superadmin %}
+        | <a href="#">Manage Users</a>
+        {% endif %}
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

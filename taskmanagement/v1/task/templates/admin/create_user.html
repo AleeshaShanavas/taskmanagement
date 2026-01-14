@@ -1,0 +1,22 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<h2>Create New User</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create User</button>
+  <a href="{% url 'admin_dashboard' %}">Cancel</a>
+</form>
+
+<script>
+document.getElementById('id_role').addEventListener('change', function() {
+  const adminField = document.querySelector('[for="id_assigned_admin"]')?.closest('p') ||
+                     document.getElementById('id_assigned_admin').closest('p');
+  if (adminField) {
+    adminField.style.display = this.value == '{{ USER_TYPE_USER }}' ? 'block' : 'none';
+  }
+});
+// Trigger on load
+document.getElementById('id_role').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}
