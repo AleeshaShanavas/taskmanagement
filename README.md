@@ -39,5 +39,5 @@ A Django-based task management system with role-based access control (SuperAdmin
 
 1. **Clone the repo**
    ```bash
-   git clone <your-repo-url>
+   git clone git@github.com:AleeshaShanavas/taskmanagement.git
    cd taskmanagement
